@@ -43,6 +43,13 @@ const GameCanvas = () => {
       bicycle: state.bicycles.find(b => b.id === state.player.bicycle_id) || state.bicycles[0]
     };
     
+    // Ensure player starts on a road if position is not on road already
+    if (!gameWorld.isOnRoad(player.x, player.y)) {
+      // Move player to nearest road intersection
+      player.x = 220; // First vertical road (x=200) + road width/2
+      player.y = 170; // First horizontal road (y=150) + road height/2
+    }
+    
     let camera = {
       x: player.x - canvas.width / 2,
       y: player.y - canvas.height / 2
