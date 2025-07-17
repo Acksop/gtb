@@ -326,7 +326,47 @@ export class GameWorld {
     this.dayNightCycle = (this.time / 1000) % 1;
   }
 
-  checkCollision(rect1, rect2) {
+  isOnRoad(x, y) {
+    // Check if position is on any road
+    for (const road of this.roads) {
+      if (x >= road.x && x <= road.x + road.width &&
+          y >= road.y && y <= road.y + road.height) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getNearestRoadPosition(x, y) {
+    // Find nearest road position
+    let nearestDistance = Infinity;
+    let nearestPosition = { x: 220, y: 170 }; // Default to first intersection
+    
+    // Check all road intersections
+    const intersections = [
+      { x: 220, y: 170 },  // First intersection
+      { x: 220, y: 420 },  // Second intersection
+      { x: 220, y: 670 },  // Third intersection
+      { x: 520, y: 170 },  // Fourth intersection
+      { x: 520, y: 420 },  // Fifth intersection
+      { x: 520, y: 670 },  // Sixth intersection
+      { x: 820, y: 170 },  // Seventh intersection
+      { x: 820, y: 420 },  // Eighth intersection
+      { x: 820, y: 670 },  // Ninth intersection
+    ];
+    
+    for (const intersection of intersections) {
+      const distance = Math.sqrt(
+        Math.pow(x - intersection.x, 2) + Math.pow(y - intersection.y, 2)
+      );
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestPosition = intersection;
+      }
+    }
+    
+    return nearestPosition;
+  }
     return rect1.x < rect2.x + rect2.width &&
            rect1.x + rect1.width > rect2.x &&
            rect1.y < rect2.y + rect2.height &&
