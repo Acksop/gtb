@@ -62,6 +62,8 @@ const GameCanvas = () => {
       let moving = false;
       
       const speed = player.bicycle ? player.bicycle.speed * 0.3 : player.speed;
+      const sprintMultiplier = (keys['ShiftLeft'] || keys['ShiftRight']) ? 2.0 : 1.0;
+      const finalSpeed = speed * sprintMultiplier;
       
       if (keys['ArrowUp'] || keys['KeyW']) {
         newY -= speed;
