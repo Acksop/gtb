@@ -318,24 +318,87 @@ export class GameWorld {
 
   updateNPCs() {
     this.npcs.forEach(npc => {
-      // Simple AI: move towards target
-      const dx = npc.targetX - npc.x;
-      const dy = npc.targetY - npc.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      if (distance > 5) {
-        npc.x += (dx / distance) * npc.speed;
-        npc.y += (dy / distance) * npc.speed;
-      } else {
-        // Reached target, pick new target
-        npc.targetX = Math.random() * this.width;
-        npc.targetY = Math.random() * this.height;
+      // Move NPCs based on their road type and direction
+      if (npc.roadType === 'horizontal') {
+        // Move along horizontal road
+        if (npc.direction === 1) { // Right
+          npc.x += npc.speed;
+          if (npc.x > this.width) {
+            npc.x = -npc.width;
+          }
+        } else if (npc.direction === 3) { // Left
+          npc.x -= npc.speed;
+          if (npc.x < -npc.width) {
+            npc.x = this.width;
+          }
+        }
+        
+        // Keep NPCs on horizontal road
+        const roadY = npc.y < 200 ? 150 : (npc.y < 450 ? 400 : 650);
+        npc.y = roadY + Math.random() * 40;
+        
+      } else if (npc.roadType === 'vertical') {
+        // Move along vertical road
+        if (npc.direction === 0) { // Up
+          npc.y -= npc.speed;
+          if (npc.y < -npc.height) {
+            npc.y = this.height;
+          }
+        } else if (npc.direction === 2) { // Down
+          npc.y += npc.speed;
+          if (npc.y > this.height) {
+            npc.y = -npc.height;
+          }
+        }
+        
+        // Keep NPCs on vertical road
+        const roadX = npc.x < 350 ? 200 : (npc.x < 650 ? 500 : (npc.x < 950 ? 800 : 1100));
+        npc.x = roadX + Math.random() * 40;
       }
       
-      // Keep NPCs within bounds
-      npc.x = Math.max(0, Math.min(this.width - npc.width, npc.x));
-      npc.y = Math.max(0, Math.min(this.height - npc.height, npc.y));
+      // Randomly change direction at intersections (10% chance)
+      if (Math.random() < 0.01) {
+        // Check if NPC is near an intersection
+        const nearIntersection = this.isNearIntersection(npc.x, npc.y);
+        if (nearIntersection) {
+          // Switch between horizontal and vertical movement
+          if (npc.roadType === 'horizontal') {
+            npc.roadType = 'vertical';
+            npc.direction = Math.random() > 0.5 ? 0 : 2; // Up or down
+          } else {
+            npc.roadType = 'horizontal';
+            npc.direction = Math.random() > 0.5 ? 1 : 3; // Right or left
+          }
+        }
+      }
     });
+  }
+  
+  isNearIntersection(x, y) {
+    const intersections = [
+      { x: 220, y: 170 },  // First intersection
+      { x: 220, y: 420 },  // Second intersection
+      { x: 220, y: 670 },  // Third intersection
+      { x: 520, y: 170 },  // Fourth intersection
+      { x: 520, y: 420 },  // Fifth intersection
+      { x: 520, y: 670 },  // Sixth intersection
+      { x: 820, y: 170 },  // Seventh intersection
+      { x: 820, y: 420 },  // Eighth intersection
+      { x: 820, y: 670 },  // Ninth intersection
+      { x: 1120, y: 170 }, // Tenth intersection
+      { x: 1120, y: 420 }, // Eleventh intersection
+      { x: 1120, y: 670 }, // Twelfth intersection
+    ];
+    
+    for (const intersection of intersections) {
+      const distance = Math.sqrt(
+        Math.pow(x - intersection.x, 2) + Math.pow(y - intersection.y, 2)
+      );
+      if (distance < 30) {
+        return true;
+      }
+    }
+    return false;
   }
 
   updatePollution() {
