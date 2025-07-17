@@ -219,6 +219,7 @@ const GameCanvas = () => {
       <div className="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white p-4 rounded-lg">
         <div className="text-sm font-mono">
           <div>WASD / Arrow Keys: Move</div>
+          <div>Hold Shift: Sprint (2x speed)</div>
           <div>E: Enter Shop</div>
           <div>F: Start Mission</div>
           <div>ESC: Menu</div>
