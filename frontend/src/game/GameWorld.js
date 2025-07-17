@@ -118,10 +118,11 @@ export class GameWorld {
   }
 
   generateMissions() {
+    // Fixed mission locations for consistent gameplay
     const missionData = [
       { name: 'Clean Park', type: 'cleanup', x: 300, y: 180, completed: false },
-      { name: 'Solar Install', type: 'solar', x: 450, y: 320, completed: false },
-      { name: 'Recycle Drive', type: 'recycle', x: 600, y: 150, completed: false }
+      { name: 'Solar Install', type: 'solar', x: 750, y: 400, completed: false },
+      { name: 'Recycle Drive', type: 'recycle', x: 900, y: 150, completed: false }
     ];
 
     this.missions = missionData.map(mission => ({
