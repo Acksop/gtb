@@ -92,18 +92,6 @@ const GameHUD = () => {
         </div>
       </div>
 
-      {/* Bicycle Info */}
-      {currentBicycle && (
-        <div className="bg-black bg-opacity-70 text-white p-3 rounded-lg">
-          <div className="text-sm font-mono space-y-1">
-            <div className="font-bold text-eco-green">{currentBicycle.name}</div>
-            <div>Speed: {currentBicycle.speed}</div>
-            <div>Durability: {currentBicycle.durability}</div>
-            <div>Eco: {Math.round(currentBicycle.eco_efficiency * 100)}%</div>
-          </div>
-        </div>
-      )}
-
       {/* Current Mission */}
       {player.current_mission && (
         <div className="bg-black bg-opacity-70 text-white p-3 rounded-lg">
