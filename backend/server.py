@@ -236,7 +236,7 @@ async def create_player(name: str):
     player = {
         "id": player_id,
         "name": name,
-        "position": {"x": 100, "y": 100},
+        "position": {"x": 220, "y": 170},  # Start on first horizontal road (y=150) and first vertical road (x=200)
         "health": 100,
         "stamina": 100,
         "eco_points": 0,
