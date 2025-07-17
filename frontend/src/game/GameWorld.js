@@ -104,8 +104,9 @@ export class GameWorld {
   }
 
   generateShops() {
+    // Fixed shop positions for consistent gameplay
     const shopData = [
-      { name: 'Green Wheels', type: 'bike_repair', x: 180, y: 120, width: 80, height: 60 },
+      { name: 'Green Wheels', type: 'bike_repair', x: 150, y: 120, width: 80, height: 60 },
       { name: 'Earth Store', type: 'eco_store', x: 380, y: 270, width: 100, height: 80 },
       { name: 'Recycle Hub', type: 'recycling_center', x: 580, y: 70, width: 90, height: 70 }
     ];
