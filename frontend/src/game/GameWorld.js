@@ -168,19 +168,57 @@ export class GameWorld {
   spawnNPCs() {
     const npcCount = 20;
     
+    // Define road positions where NPCs can spawn
+    const roadPositions = [];
+    
+    // Horizontal roads (y = 150, 400, 650 with height = 40)
+    const horizontalRoads = [150, 400, 650];
+    for (const roadY of horizontalRoads) {
+      for (let x = 0; x < this.width; x += 50) {
+        roadPositions.push({
+          x: x,
+          y: roadY + Math.random() * 40, // Random position within road height
+          type: 'horizontal'
+        });
+      }
+    }
+    
+    // Vertical roads (x = 200, 500, 800, 1100 with width = 40)
+    const verticalRoads = [200, 500, 800, 1100];
+    for (const roadX of verticalRoads) {
+      for (let y = 0; y < this.height; y += 50) {
+        roadPositions.push({
+          x: roadX + Math.random() * 40, // Random position within road width
+          y: y,
+          type: 'vertical'
+        });
+      }
+    }
+    
+    // Spawn NPCs only on roads
     for (let i = 0; i < npcCount; i++) {
       const npcType = Math.random() > 0.6 ? 'cyclist' : 'pedestrian';
+      const roadPos = roadPositions[Math.floor(Math.random() * roadPositions.length)];
+      
+      // Set direction based on road type
+      let direction = 0;
+      if (roadPos.type === 'horizontal') {
+        direction = Math.random() > 0.5 ? 1 : 3; // Right or left
+      } else {
+        direction = Math.random() > 0.5 ? 0 : 2; // Up or down
+      }
       
       this.npcs.push({
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
+        x: roadPos.x,
+        y: roadPos.y,
         width: 12,
         height: 16,
         type: npcType,
-        direction: Math.floor(Math.random() * 4),
+        direction: direction,
         speed: Math.random() * 1 + 0.5,
-        targetX: Math.random() * this.width,
-        targetY: Math.random() * this.height
+        targetX: roadPos.x + (Math.random() - 0.5) * 200, // Stay near road
+        targetY: roadPos.y + (Math.random() - 0.5) * 200,
+        roadType: roadPos.type
       });
     }
   }
