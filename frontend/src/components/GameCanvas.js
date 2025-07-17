@@ -66,22 +66,22 @@ const GameCanvas = () => {
       const finalSpeed = speed * sprintMultiplier;
       
       if (keys['ArrowUp'] || keys['KeyW']) {
-        newY -= speed;
+        newY -= finalSpeed;
         player.direction = 0;
         moving = true;
       }
       if (keys['ArrowDown'] || keys['KeyS']) {
-        newY += speed;
+        newY += finalSpeed;
         player.direction = 2;
         moving = true;
       }
       if (keys['ArrowLeft'] || keys['KeyA']) {
-        newX -= speed;
+        newX -= finalSpeed;
         player.direction = 3;
         moving = true;
       }
       if (keys['ArrowRight'] || keys['KeyD']) {
-        newX += speed;
+        newX += finalSpeed;
         player.direction = 1;
         moving = true;
       }
