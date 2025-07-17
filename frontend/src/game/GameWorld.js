@@ -29,31 +29,54 @@ export class GameWorld {
   }
 
   generateBuildings() {
-    // Generate random buildings throughout the city
-    const buildingTypes = [
-      { color: '#8b7355', width: 80, height: 100 },
-      { color: '#a0522d', width: 120, height: 80 },
-      { color: '#708090', width: 100, height: 120 },
-      { color: '#2f4f4f', width: 90, height: 90 }
+    // Fixed building positions for consistent city layout
+    const fixedBuildings = [
+      // Row 1 buildings (top)
+      { x: 50, y: 50, width: 80, height: 80, color: '#8b7355' },
+      { x: 250, y: 30, width: 100, height: 100, color: '#a0522d' },
+      { x: 450, y: 40, width: 90, height: 90, color: '#708090' },
+      { x: 650, y: 20, width: 120, height: 110, color: '#2f4f4f' },
+      { x: 850, y: 50, width: 80, height: 80, color: '#8b7355' },
+      { x: 1050, y: 30, width: 100, height: 100, color: '#a0522d' },
+      
+      // Row 2 buildings (between roads)
+      { x: 30, y: 200, width: 60, height: 120, color: '#708090' },
+      { x: 280, y: 220, width: 80, height: 100, color: '#2f4f4f' },
+      { x: 520, y: 210, width: 100, height: 110, color: '#8b7355' },
+      { x: 680, y: 200, width: 90, height: 120, color: '#a0522d' },
+      { x: 880, y: 220, width: 80, height: 100, color: '#708090' },
+      { x: 1080, y: 210, width: 100, height: 110, color: '#2f4f4f' },
+      
+      // Row 3 buildings (middle)
+      { x: 70, y: 350, width: 120, height: 80, color: '#a0522d' },
+      { x: 300, y: 370, width: 80, height: 100, color: '#8b7355' },
+      { x: 470, y: 360, width: 100, height: 90, color: '#708090' },
+      { x: 650, y: 350, width: 90, height: 110, color: '#2f4f4f' },
+      { x: 850, y: 370, width: 80, height: 100, color: '#a0522d' },
+      { x: 1000, y: 360, width: 120, height: 90, color: '#8b7355' },
+      
+      // Row 4 buildings (between roads)
+      { x: 40, y: 520, width: 80, height: 120, color: '#708090' },
+      { x: 270, y: 540, width: 100, height: 80, color: '#2f4f4f' },
+      { x: 450, y: 530, width: 90, height: 100, color: '#8b7355' },
+      { x: 620, y: 520, width: 120, height: 90, color: '#a0522d' },
+      { x: 820, y: 540, width: 80, height: 110, color: '#708090' },
+      { x: 1020, y: 530, width: 100, height: 100, color: '#2f4f4f' },
+      
+      // Row 5 buildings (bottom)
+      { x: 60, y: 670, width: 100, height: 80, color: '#a0522d' },
+      { x: 290, y: 690, width: 80, height: 100, color: '#8b7355' },
+      { x: 480, y: 680, width: 120, height: 90, color: '#708090' },
+      { x: 680, y: 670, width: 90, height: 110, color: '#2f4f4f' },
+      { x: 870, y: 690, width: 80, height: 80, color: '#a0522d' },
+      { x: 1070, y: 680, width: 100, height: 100, color: '#8b7355' }
     ];
 
-    for (let i = 0; i < 25; i++) {
-      const buildingType = buildingTypes[Math.floor(Math.random() * buildingTypes.length)];
-      const x = Math.random() * (this.width - buildingType.width);
-      const y = Math.random() * (this.height - buildingType.height);
-      
-      // Ensure buildings don't overlap with roads (simplified)
-      if (this.isValidBuildingPosition(x, y, buildingType.width, buildingType.height)) {
-        this.buildings.push({
-          x,
-          y,
-          width: buildingType.width,
-          height: buildingType.height,
-          color: buildingType.color,
-          type: 'building'
-        });
-      }
-    }
+    // Add all fixed buildings to the game world
+    this.buildings = fixedBuildings.map(building => ({
+      ...building,
+      type: 'building'
+    }));
   }
 
   generateRoads() {
